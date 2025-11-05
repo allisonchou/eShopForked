@@ -1,4 +1,20 @@
-﻿@page "/cart"
+﻿@*
+    CartPage Component
+    
+    This component displays the shopping cart page where users can view and manage their basket items.
+    
+    Key features:
+    - Displays all items currently in the user's shopping cart
+    - Allows users to update quantities for individual items
+    - Shows real-time price calculations for individual items and the cart total
+    - Provides checkout and continue shopping navigation options
+    - Uses streaming rendering for optimal performance
+    - Requires user authentication
+    
+    The component uses enhanced forms with antiforgery tokens to handle quantity updates,
+    and maintains UI consistency by showing pending quantities during form submissions.
+*@
+@page "/cart"
 @inject NavigationManager Nav
 @inject BasketState Basket
 @inject IProductImageUrlProvider ProductImages
@@ -29,6 +45,7 @@
             </div>
             @foreach (var item in basketItems)
             {
+                @* Display the pending quantity if an update is in progress for this item, otherwise show the committed quantity *@
                 var quantity = CurrentOrPendingQuantity(item.ProductId, item.Quantity);
                 <div class="cart-item" @key="@item.Id">
                     <div class="catalog-item-info">
@@ -39,6 +56,7 @@
                         </div>
                     </div>
                     <div class="catalog-item-quantity">
+                        @* Enhanced form with antiforgery protection for updating item quantity *@
                         <form method="post" data-enhance>
                             <input type="hidden" name="_handler" value="update-cart" />
                             <AntiforgeryToken />
@@ -80,32 +98,74 @@
     }
 </div>
 
+@* Hidden form that handles the quantity update submissions *@
 <form @formname="update-cart" @onsubmit="@UpdateQuantityAsync"></form>
 
 @code {
     private IReadOnlyCollection<BasketItem>? basketItems;
 
+    /// <summary>
+    /// Gets or sets the product ID for which the quantity is being updated.
+    /// This value is supplied from the form submission when the user clicks the Update button.
+    /// </summary>
     [SupplyParameterFromForm]
     public int? UpdateQuantityId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the new quantity value for the product being updated.
+    /// This value is supplied from the form submission when the user modifies the quantity input.
+    /// A value of 0 will remove the item from the cart.
+    /// </summary>
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
+    /// <summary>
+    /// Initializes the component by loading the current basket items from the basket state.
+    /// This method is called when the component is first rendered.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
         basketItems = await Basket.GetBasketItemsAsync();
     }
 
+    /// <summary>
+    /// Gets the total price of all items in the cart.
+    /// Calculated as the sum of (quantity × unit price) for each item.
+    /// Returns null if the basket items haven't been loaded yet.
+    /// </summary>
     private decimal? TotalPrice => basketItems?.Sum(i => i.Quantity * i.UnitPrice);
+
+    /// <summary>
+    /// Gets the total quantity of all items in the cart.
+    /// Calculated as the sum of quantities for all items.
+    /// Returns null if the basket items haven't been loaded yet.
+    /// </summary>
     private decimal? TotalQuantity => basketItems?.Sum(i => i.Quantity);
 
-    // While an update post is in process, we want to show the pending quantity, not the one
-    // that is committed to the cart (otherwise the UI briefly shows the old data)
+    /// <summary>
+    /// Determines the quantity to display for a product in the UI.
+    /// While an update post is in progress, this returns the pending quantity from the form submission
+    /// rather than the committed quantity in the cart. This prevents the UI from briefly showing
+    /// stale data during the update operation, providing a more responsive user experience.
+    /// </summary>
+    /// <param name="productId">The ID of the product to check.</param>
+    /// <param name="cartQuantity">The current committed quantity in the cart.</param>
+    /// <returns>
+    /// The pending quantity if an update is in progress for this product,
+    /// otherwise the current cart quantity.
+    /// </returns>
     private int CurrentOrPendingQuantity(int productId, int cartQuantity)
         => UpdateQuantityId.GetValueOrDefault(-1) == productId
         ? UpdateQuantityValue!.Value
         : cartQuantity;
 
+    /// <summary>
+    /// Handles the form submission to update a product's quantity in the cart.
+    /// This method updates the basket state with the new quantity and refreshes the basket items.
+    /// If the quantity is set to 0, the item will be removed from the cart.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task UpdateQuantityAsync()
     {
         var id = UpdateQuantityId!.Value;
