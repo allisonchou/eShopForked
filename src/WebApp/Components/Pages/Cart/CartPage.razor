@@ -91,6 +91,10 @@
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
+    /// <summary>
+    /// Asynchronously loads the basket items for the shopping cart page by calling <see cref="BasketState.GetBasketItemsAsync"/>.
+    /// This method is called during component initialization.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         basketItems = await Basket.GetBasketItemsAsync();
