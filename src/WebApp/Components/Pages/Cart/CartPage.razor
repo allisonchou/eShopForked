@@ -96,6 +96,9 @@
         basketItems = await Basket.GetBasketItemsAsync();
     }
 
+    /// <summary>
+    /// Gets the total price of all items in the shopping cart, calculated as the sum of quantity multiplied by unit price for each item.
+    /// </summary>
     private decimal? TotalPrice => basketItems?.Sum(i => i.Quantity * i.UnitPrice);
     private decimal? TotalQuantity => basketItems?.Sum(i => i.Quantity);
 
