@@ -55,6 +55,17 @@ public class BasketState(
         await NotifyChangeSubscribersAsync();
     }
 
+    /// <summary>
+    /// Updates the quantity of a specific product in the basket. If the quantity is set to zero or less, the product is removed from the basket.
+    /// </summary>
+    /// <param name="productId">The unique identifier of the product whose quantity should be updated.</param>
+    /// <param name="quantity">The new quantity value. If zero or less, the product will be removed from the basket.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This method fetches the current basket items, updates the quantity for the specified product if it exists,
+    /// invalidates the cached basket, updates the basket service, and notifies all change subscribers.
+    /// If the product is not found in the basket, no action is taken.
+    /// </remarks>
     public async Task SetQuantityAsync(int productId, int quantity)
     {
         var existingItems = (await FetchBasketItemsAsync()).ToList();
