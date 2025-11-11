@@ -106,6 +106,10 @@
         ? UpdateQuantityValue!.Value
         : cartQuantity;
 
+    /// <summary>
+    /// Asynchronously updates the quantity of a cart item and refreshes the cart state.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task UpdateQuantityAsync()
     {
         var id = UpdateQuantityId!.Value;
