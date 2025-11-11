@@ -106,6 +106,28 @@
         ? UpdateQuantityValue!.Value
         : cartQuantity;
 
+    /// <summary>
+    /// Asynchronously updates the quantity of a specific product in the shopping cart.
+    /// This method is invoked when the user submits the "Update" form for a cart item.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="Task"/> representing the asynchronous operation. The task completes 
+    /// when the quantity has been updated in the basket service and the basket items 
+    /// have been refreshed.
+    /// </returns>
+    /// <remarks>
+    /// This method relies on form parameters supplied via the <see cref="UpdateQuantityId"/> 
+    /// and <see cref="UpdateQuantityValue"/> properties, which are bound using the 
+    /// <see cref="SupplyParameterFromFormAttribute"/>.
+    /// 
+    /// If the new quantity is greater than 0, the item quantity is updated. 
+    /// If the new quantity is 0, the item is removed from the basket.
+    /// 
+    /// After updating the quantity, the basket items are refreshed to reflect the current state.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if <see cref="UpdateQuantityId"/> or <see cref="UpdateQuantityValue"/> is null.
+    /// </exception>
     private async Task UpdateQuantityAsync()
     {
         var id = UpdateQuantityId!.Value;
