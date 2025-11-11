@@ -91,6 +91,11 @@
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
+    /// <summary>
+    /// Overrides the component initialization lifecycle method to load the shopping basket items
+    /// from the basket service when the component is first initialized.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation of loading basket items.</returns>
     protected override async Task OnInitializedAsync()
     {
         basketItems = await Basket.GetBasketItemsAsync();
