@@ -85,6 +85,12 @@
 @code {
     private IReadOnlyCollection<BasketItem>? basketItems;
 
+    /// <summary>
+    /// Gets or sets the product ID for the cart item being updated. This property is populated from the form
+    /// submission when the user clicks the "Update" button for a specific cart item. It is used to identify
+    /// which product's quantity should be modified and to display pending quantity changes in the UI while
+    /// the update operation is in progress.
+    /// </summary>
     [SupplyParameterFromForm]
     public int? UpdateQuantityId { get; set; }
 
