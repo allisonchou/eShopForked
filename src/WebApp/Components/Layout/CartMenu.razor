@@ -20,6 +20,17 @@
     [CascadingParameter]
     public HttpContext? HttpContext { get; set; }
 
+    /// <summary>
+    /// Gets the total number of items in the shopping cart for display in the cart badge.
+    /// </summary>
+    /// <value>
+    /// The sum of quantities of all items in the basket, or <c>null</c> if the basket items have not been loaded.
+    /// </value>
+    /// <remarks>
+    /// This property is calculated by summing the <see cref="BasketItem.Quantity"/> of all items in the basket.
+    /// The value is displayed in a badge overlay on the cart icon in the navigation menu to provide a quick
+    /// visual indicator of the number of items currently in the user's cart.
+    /// </remarks>
     private int? TotalQuantity => basketItems?.Sum(i => i.Quantity);
 
     protected override async Task OnInitializedAsync()
