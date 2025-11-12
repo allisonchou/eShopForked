@@ -85,9 +85,32 @@
 @code {
     private IReadOnlyCollection<BasketItem>? basketItems;
 
+    /// <summary>
+    /// Gets or sets the product ID for which the quantity should be updated.
+    /// This value is supplied from the form submission when the user clicks the Update button.
+    /// </summary>
+    /// <value>
+    /// The product ID of the item to update, or <c>null</c> if no update is in progress.
+    /// </value>
+    /// <remarks>
+    /// This property is populated via form binding when the user submits a quantity update.
+    /// It is used in conjunction with <see cref="UpdateQuantityValue"/> to update the basket.
+    /// </remarks>
     [SupplyParameterFromForm]
     public int? UpdateQuantityId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the new quantity value for the product being updated.
+    /// This value is supplied from the form submission when the user enters a quantity and clicks the Update button.
+    /// </summary>
+    /// <value>
+    /// The new quantity for the product, or <c>null</c> if no update is in progress.
+    /// </value>
+    /// <remarks>
+    /// This property is populated via form binding when the user submits a quantity update.
+    /// It is used in conjunction with <see cref="UpdateQuantityId"/> to update the basket.
+    /// A value of 0 will remove the item from the basket.
+    /// </remarks>
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
