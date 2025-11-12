@@ -91,6 +91,21 @@
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
+    /// <summary>
+    /// Initializes the cart page component asynchronously. This method is called when the component
+    /// is first initialized in the Blazor component lifecycle, before the component is rendered.
+    /// It loads the current user's basket items from the basket service.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="Task"/> that represents the asynchronous initialization operation.
+    /// The task completes when the basket items have been successfully retrieved and assigned.
+    /// </returns>
+    /// <exception cref="HttpRequestException">
+    /// Thrown when the HTTP request to retrieve basket items fails due to network issues or server errors.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the basket service is in an invalid state or when there are issues with the authentication state.
+    /// </exception>
     protected override async Task OnInitializedAsync()
     {
         basketItems = await Basket.GetBasketItemsAsync();
