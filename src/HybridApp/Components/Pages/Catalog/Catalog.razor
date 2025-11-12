@@ -39,6 +39,17 @@
     [SupplyParameterFromQuery]
     public int? Page { get; set; }
 
+    /// <summary>
+    /// Gets or sets the unique identifier for filtering catalog items by brand.
+    /// </summary>
+    /// <value>
+    /// A nullable integer representing the brand ID. When null, no brand filter is applied.
+    /// </value>
+    /// <remarks>
+    /// This property is bound to the "brand" query parameter in the URL. It is used to filter
+    /// the catalog items to show only products from the specified brand. When combined with
+    /// <see cref="ItemTypeId"/>, it allows for more refined filtering of catalog items.
+    /// </remarks>
     [SupplyParameterFromQuery(Name = "brand")]
     public int? BrandId { get; set; }
 
