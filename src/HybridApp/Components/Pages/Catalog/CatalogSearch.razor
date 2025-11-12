@@ -49,7 +49,19 @@
 @code {
     IEnumerable<CatalogBrand>? catalogBrands;
     IEnumerable<CatalogItemType>? catalogItemTypes;
+    
+    /// <summary>
+    /// Gets or sets the brand identifier used to filter and highlight the selected brand in the search UI.
+    /// </summary>
+    /// <value>
+    /// A nullable integer representing the currently selected brand ID. When null, indicates no brand is selected.
+    /// </value>
+    /// <remarks>
+    /// This parameter is passed from the parent catalog component and is used to highlight the active brand
+    /// filter in the UI and construct navigation URIs for brand filtering.
+    /// </remarks>
     [Parameter] public int? BrandId { get; set; }
+    
     [Parameter] public int? ItemTypeId { get; set; }
 
     protected override async Task OnInitializedAsync()
