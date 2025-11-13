@@ -20,6 +20,9 @@ else
 @code {
     IQueryable<WebhookResponse>? webhooks;
 
+    /// <summary>
+    /// Asynchronously initializes the component by loading registered webhooks.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         webhooks = (await WebhooksClient.LoadWebhooks()).AsQueryable();

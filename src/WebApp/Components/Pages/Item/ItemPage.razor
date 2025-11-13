@@ -72,6 +72,9 @@ else if (notFound)
     [CascadingParameter]
     public HttpContext? HttpContext { get; set; }
 
+    /// <summary>
+    /// Asynchronously initializes the component by loading the catalog item details and checking authentication status.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         try

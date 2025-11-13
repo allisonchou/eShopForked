@@ -51,6 +51,9 @@ else
 @code {
     private OrderRecord[]? orders;
 
+    /// <summary>
+    /// Asynchronously initializes the component by loading the user's orders.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         orders = await OrderingService.GetOrders();

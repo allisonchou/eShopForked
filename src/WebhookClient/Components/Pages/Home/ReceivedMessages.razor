@@ -25,6 +25,9 @@ else
     private IQueryable<WebHookReceived>? messages;
     private IDisposable? subscription;
 
+    /// <summary>
+    /// Asynchronously initializes the component by subscribing to webhook notifications and loading received messages.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         subscription = HooksRepository.Subscribe(() => InvokeAsync(OnMessageReceivedAsync));

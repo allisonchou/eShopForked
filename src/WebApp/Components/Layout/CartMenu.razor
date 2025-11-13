@@ -22,6 +22,9 @@
 
     private int? TotalQuantity => basketItems?.Sum(i => i.Quantity);
 
+    /// <summary>
+    /// Asynchronously initializes the component by subscribing to basket changes and loading current basket items.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         // The basket contents may change during the lifetime of this component (e.g., when an item is
