@@ -8,6 +8,9 @@
     [CascadingParameter]
     public HttpContext? HttpContext { get; set; }
 
+    /// <summary>
+    /// Asynchronously initializes the component by redirecting the user to the appropriate return URL after authentication.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         var returnUrl = ReturnUrl ?? "/";

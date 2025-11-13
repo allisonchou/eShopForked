@@ -91,6 +91,9 @@
     [SupplyParameterFromForm]
     public int? UpdateQuantityValue { get; set; }
 
+    /// <summary>
+    /// Asynchronously initializes the component by loading the current basket items.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         basketItems = await Basket.GetBasketItemsAsync();

@@ -52,6 +52,9 @@
     [Parameter] public int? BrandId { get; set; }
     [Parameter] public int? ItemTypeId { get; set; }
 
+    /// <summary>
+    /// Asynchronously initializes the component by loading catalog brands and item types.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         var brandsTask = CatalogService.GetBrands();

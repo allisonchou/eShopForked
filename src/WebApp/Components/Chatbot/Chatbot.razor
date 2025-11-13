@@ -51,6 +51,9 @@
     bool thinking;
     IJSObjectReference? jsModule;
 
+    /// <summary>
+    /// Asynchronously initializes the component by setting up the chat client and authentication state.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         var client = ServiceProvider.GetService<IChatClient>();
