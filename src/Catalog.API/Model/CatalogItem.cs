@@ -17,6 +17,9 @@ public class CatalogItem
 
     public string? PictureFileName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the identifier for the catalog type. This represents the category or type classification of the catalog item.
+    /// </summary>
     public int CatalogTypeId { get; set; }
 
     public CatalogType? CatalogType { get; set; }
